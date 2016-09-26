@@ -28,7 +28,38 @@ analysing tools
 
 
 
+### INSTALL
+
+download the script and set it to be executable:
+
+
+	$~/>  wget https://raw.githubusercontent.com/bb-drummer/php-qa/master/php-qa.sh
+
+	$~/>  chmod -x php-qa.sh
+
+	$~/>  sudo mv php-qa.sh /usr/local/bin/php-qa
+
+
+to install dependend scripts/tools:
+
+
+    $~/>  sudo su   (or any user having write priveliges to your bin-path)
+
+    $~/>  php-qa -setup -v
+
+
+if not exists, create your directory to store the report files, ex:
+
+
+	$~/>  cd myproject/
+
+	$myproject/>  mkdir -p ./public/.reports
+
+
+
 ### OPTIONS:
+
+on command prompt type `php-qa --help` to see the list of options
 
 
 *	`-src sourcepath`    source path to analyse (default './src/')
