@@ -58,7 +58,7 @@ STEP_PHPLOC=1
 ## generic config
 ##
 SKIP_LOG=0
-VERBOSE=1
+VERBOSE=0
 NONINTERACTIVE=0
 CDIR=`pwd`
 
@@ -457,7 +457,7 @@ perform_phpunit ()
         
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
         mkdir -p ${SCRIPT_TARGETPATH}phpunit
-        phpunit --verbose --debug --configuration ${SCRIPT_TESTSPATH} --coverage-html ${SCRIPT_TARGETPATH}/phpunit --coverage-text=${SCRIPT_TARGETPATH}/phpunit/qa.phpunit.txt --coverage-clover=${SCRIPT_TARGETPATH}/phpunit/qa.phpunit.clover.xml --testdox-html ${SCRIPT_TARGETPATH}/phpunit/qa.phpunit.testdox.html
+        phpunit ${SCRIPT_ADD_VERBOSE}--debug --configuration ${SCRIPT_TESTSPATH} --coverage-html ${SCRIPT_TARGETPATH}/phpunit --coverage-text=${SCRIPT_TARGETPATH}/phpunit/qa.phpunit.txt --coverage-clover=${SCRIPT_TARGETPATH}/phpunit/qa.phpunit.clover.xml --testdox-html ${SCRIPT_TARGETPATH}/phpunit/qa.phpunit.testdox.html
 
     fi
 }
@@ -479,17 +479,17 @@ perform_phpcodesniffer ()
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
         mkdir -p ${SCRIPT_TARGETPATH}codesniffer
         debugMessage ">>> executing... '${EXECCOMMAND}' - report ";
-        phpcs -v -s --standard=${CODINGSTD} --report-file=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.report.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.report.txt
+        phpcs ${SCRIPT_ADD_VERBOSE}-s --standard=${CODINGSTD} --report-file=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.report.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.report.txt
         debugMessage ">>> executing... '${EXECCOMMAND}' - info ";
-        phpcs -v -s --standard=${CODINGSTD} --report-info=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.info.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.info.txt
+        phpcs ${SCRIPT_ADD_VERBOSE}-s --standard=${CODINGSTD} --report-info=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.info.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.info.txt
         debugMessage ">>> executing... '${EXECCOMMAND}' - summary ";
-        phpcs -v -s --standard=${CODINGSTD} --report-summary=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.summary.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.summary.txt
+        phpcs ${SCRIPT_ADD_VERBOSE}-s --standard=${CODINGSTD} --report-summary=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.summary.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.summary.txt
         debugMessage ">>> executing... '${EXECCOMMAND}' - source ";
-        phpcs -v -s --standard=${CODINGSTD} --report-source=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.source.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.source.txt
+        phpcs ${SCRIPT_ADD_VERBOSE}-s --standard=${CODINGSTD} --report-source=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.source.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.source.txt
         debugMessage ">>> executing... '${EXECCOMMAND}' - full ";
-        phpcs -v -s --standard=${CODINGSTD} --report-full=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.full.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.full.txt
+        phpcs ${SCRIPT_ADD_VERBOSE}-s --standard=${CODINGSTD} --report-full=${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.full.txt --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH} ; # > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.full.txt
         debugMessage ">>> executing... '${EXECCOMMAND}' - PEAR standard ";
-        phpcs -v -s --standard=${CODINGSTD} --generator=HTML ${SCRIPT_SOURCEPATH} > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.standards.html
+        phpcs ${SCRIPT_ADD_VERBOSE}-s --standard=${CODINGSTD} --generator=HTML ${SCRIPT_SOURCEPATH} > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.standards.html
         #debugMessage ">>> executing... '${EXECCOMMAND}' - xml ";
         #phpcs -s --report-xml=${SCRIPT_TARGETPATH}codesniffer/qa.codesniffer.report.xml --error-severity=1 --warning-severity=8 ${SCRIPT_SOURCEPATH}
 
@@ -508,7 +508,7 @@ perform_phpcodesnifferbeautifier ()
         EXECCOMMAND=${DEP_PHPCODESNIFFER_BEAUTIFIER[0]};
 
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
-        phpcbf -v ${SCRIPT_SOURCEPATH} -n --tab-width=4 --report=diff -v > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.code-beautifier-fixer.diff
+        phpcbf ${SCRIPT_ADD_VERBOSE}${SCRIPT_SOURCEPATH} -n --tab-width=4 --report=diff -v > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.code-beautifier-fixer.diff
 
     fi
 
@@ -524,7 +524,7 @@ perform_phpmetrics ()
         EXECCOMMAND=${DEP_PHPMETRICS[0]};
 
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
-        phpmetrics -v --report-html=${SCRIPT_TARGETPATH}/qa.phpmetrics.html --report-xml=${SCRIPT_TARGETPATH}/qa.phpmetrics.xml ${SCRIPT_SOURCEPATH}
+        phpmetrics ${SCRIPT_ADD_VERBOSE}--report-html=${SCRIPT_TARGETPATH}/qa.phpmetrics.html --report-xml=${SCRIPT_TARGETPATH}/qa.phpmetrics.xml ${SCRIPT_SOURCEPATH}
 
     fi
 
@@ -542,15 +542,15 @@ perform_pdepend ()
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
         mkdir -p ${SCRIPT_TARGETPATH}pdepend
         debugMessage ">>> executing... '${EXECCOMMAND}' - dependencies";
-        pdepend --dependency-xml=${SCRIPT_TARGETPATH}/pdepend/dependencies.xml ${SCRIPT_SOURCEPATH}
+        pdepend ${SCRIPT_ADD_QUIET}--dependency-xml=${SCRIPT_TARGETPATH}/pdepend/dependencies.xml ${SCRIPT_SOURCEPATH}
         debugMessage ">>> executing... '${EXECCOMMAND}' - summary xml";
-        pdepend --summary-xml=${SCRIPT_TARGETPATH}/pdepend/summary.xml ${SCRIPT_SOURCEPATH}
+        pdepend ${SCRIPT_ADD_QUIET}--summary-xml=${SCRIPT_TARGETPATH}/pdepend/summary.xml ${SCRIPT_SOURCEPATH}
         debugMessage ">>> executing... '${EXECCOMMAND}' - jdepend xml";
-        pdepend --jdepend-xml=${SCRIPT_TARGETPATH}/pdepend/jdepend.xml ${SCRIPT_SOURCEPATH}
+        pdepend ${SCRIPT_ADD_QUIET}--jdepend-xml=${SCRIPT_TARGETPATH}/pdepend/jdepend.xml ${SCRIPT_SOURCEPATH}
         debugMessage ">>> executing... '${EXECCOMMAND}' - jdepend chart";
-        pdepend --jdepend-chart=${SCRIPT_TARGETPATH}/pdepend/jdepend.svg ${SCRIPT_SOURCEPATH}
+        pdepend ${SCRIPT_ADD_QUIET}--jdepend-chart=${SCRIPT_TARGETPATH}/pdepend/jdepend.svg ${SCRIPT_SOURCEPATH}
         debugMessage ">>> executing... '${EXECCOMMAND}' - overview pyramid";
-        pdepend --overview-pyramid=${SCRIPT_TARGETPATH}/pdepend/pyramid.svg ${SCRIPT_SOURCEPATH}
+        pdepend ${SCRIPT_ADD_QUIET}--overview-pyramid=${SCRIPT_TARGETPATH}/pdepend/pyramid.svg ${SCRIPT_SOURCEPATH}
 
     fi
 
@@ -596,7 +596,7 @@ perform_phpcpd ()
         EXECCOMMAND=${DEP_PHPCPD[0]};
 
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
-        phpcpd -v ${SCRIPT_SOURCEPATH} > ${SCRIPT_TARGETPATH}/qa.copy-paste-detection.txt
+        phpcpd ${SCRIPT_ADD_VERBOSE}${SCRIPT_SOURCEPATH} > ${SCRIPT_TARGETPATH}/qa.copy-paste-detection.txt
 
     fi
 
@@ -612,7 +612,7 @@ perform_phploc ()
         EXECCOMMAND=${DEP_PHPLOC[0]};
 
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
-        phploc -v ${SCRIPT_SOURCEPATH} > ${SCRIPT_TARGETPATH}/qa.project-size.txt
+        phploc ${SCRIPT_ADD_VERBOSE}${SCRIPT_SOURCEPATH} > ${SCRIPT_TARGETPATH}/qa.project-size.txt
 
     fi
 
@@ -1089,6 +1089,12 @@ fi
     SCRIPT_KEEPFILES=${KEEP_FILES}
     SCRIPT_KEEPARCHIVE=${KEEP_ARCHIVE}
     
+    SCRIPT_ADD_VERBOSE="";
+    SCRIPT_ADD_QUIET="--quiet ";
+    if [[ $SCRIPT_VERBOSE == 1 ]]; then
+        SCRIPT_ADD_VERBOSE="-v ";
+        SCRIPT_ADD_QUIET="";
+    fi
     
     ## check parameters, if paths and targets are set properly...
     ##
@@ -1235,7 +1241,7 @@ fi
 
 
 
-    fi # go?
+    fi
 
     ## return to last working directory...
     cd ${current_work_dir}
@@ -1244,6 +1250,6 @@ fi
     #scriptvendor;
     #scriptinfo;
 
-## exit script script
+## exit script
 exit 0;
 
