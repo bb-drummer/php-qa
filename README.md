@@ -2,10 +2,12 @@
 
 
 
+
 ### USAGE: 
 
 `php-qa.sh {arguments and parameters}`
    
+
 
 
 ### DESCRIPTION:
@@ -28,9 +30,10 @@ analysing tools
 
 
 
+
 ### INSTALL
 
-download the script and set it to be executable:
+* download the script and set it to be executable:
 
 
 	$~/>  wget https://raw.githubusercontent.com/bb-drummer/php-qa/master/php-qa.sh
@@ -40,7 +43,7 @@ download the script and set it to be executable:
 	$~/>  sudo mv php-qa.sh /usr/local/bin/php-qa
 
 
-to install dependend scripts/tools:
+* to install dependend scripts/tools:
 
 
     $~/>  sudo su   (or any user having write priveliges to your bin-path)
@@ -48,12 +51,51 @@ to install dependend scripts/tools:
     $~/>  php-qa -setup -v
 
 
-if not exists, create your directory to store the report files, ex:
+* if not exists, create your directory to store the report files, ex:
 
 
 	$~/>  cd myproject/
 
 	$myproject/>  mkdir -p ./public/.reports
+
+
+
+
+### Examples:
+
+- to run a non-interactive and (nearly) silent report generation with default path settings, simply type:
+
+
+	$~/>  php-qa -n
+
+
+- change the target for the report files:
+
+
+	$~/>  php-qa -n -target "/path/to/my/report/files"
+
+
+- specify a different path to the test-files:
+
+
+	$~/>  php-qa -n -tests "./my/test/files"
+
+
+- specify a different path to the source-files:
+
+
+	$~/>  php-qa -n -src "./module/src"
+
+
+- turn off log-file:
+
+
+	$~/>  php-qa -n --skip-log
+
+  or
+
+	$~/>  php-qa -n --skip-log
+
 
 
 
@@ -110,6 +152,8 @@ on command prompt type `php-qa --help` to see the list of options
 ### DISCLAIMER:
 
 THIS SCRIPT COMES WITH ABSOLUTELY NO WARRANTY !!! USE AT YOUR OWN RISK !!!
+
+please, see `LICENSE.tst` for further information
 
 
 

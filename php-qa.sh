@@ -119,16 +119,34 @@ AVAILABLE_OPTIONS="
 ";
 
 EXAMPLES="
-    - simple: just change into your project directory and run the script
+    
+- to run a non-interactive and (nearly) silent report generation with default path settings, simply type:
 
-      ~/> cd my-project
-      my-project/> php-qa
+    my-project/>  php-qa -n
 
 
-    - custom: set sources and reports target path
+- change the target for the report files:
 
-      ~/> cd my-project
-      my-project/> php-qa -src ${SOURCEPATH} -target ${TARGETPATH}
+    my-project/>  php-qa -n -target "/path/to/my/report/files"
+
+
+- specify a different path to the test-files:
+
+    my-project/>  php-qa -n -tests "./my/test/files"
+
+
+- specify a different path to the source-files:
+
+    my-project/>  php-qa -n -src "./module/src"
+
+
+- turn off log-file:
+
+    my-project/>  php-qa -n --skip-log
+
+  or
+
+    my-project/>  php-qa -n --skip-log
 
 ";
 
