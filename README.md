@@ -94,7 +94,7 @@ turn off log-file:
 
 or
 
-	$~/>  php-qa -n --skip-log
+	$~/>  php-qa -n --disable-log
 
 
 
