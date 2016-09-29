@@ -27,6 +27,7 @@ analysing tools
 *   phpmd : https://github.com/phpmd/phpmd
 *   phploc : https://github.com/sebastianbergmann/phploc
 *   phpcpd : https://github.com/sebastianbergmann/phpcpd
+*   phpDocumentor2 : https://github.com/phpDocumentor/phpDocumentor2
 
 
 

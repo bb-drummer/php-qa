@@ -54,6 +54,7 @@ STEP_PHPPDEPEND=1
 STEP_PHPMD=1
 STEP_PHPCPD=1
 STEP_PHPLOC=1
+STEP_PHPDOC=1
 
 ## generic config
 ##
@@ -77,6 +78,17 @@ DESCRIPTION="
 
     It calls several code analysis tools (if available), stores their 
     output in a given directory and wraps it with an index page
+
+    analysing tools
+
+    *   phpunit : https://github.com/sebastianbergmann/phpunit
+    *   php_CodeSniffer : https://github.com/squizlabs/PHP_CodeSniffer
+    *   phpmetrics : https://github.com/phpmetrics/PhpMetrics
+    *   pdepend : https://github.com/pdepend/pdepend
+    *   phpmd : https://github.com/phpmd/phpmd
+    *   phploc : https://github.com/sebastianbergmann/phploc
+    *   phpcpd : https://github.com/sebastianbergmann/phpcpd
+    *   phpDocumentor2 : https://github.com/phpDocumentor/phpDocumentor2
 
 ";
 
@@ -311,6 +323,21 @@ setup_phploc ()
 
 
 
+## phpDocumentor2
+## https://www.phpdoc.org/
+CMD_PHPDOC=
+DEP_PHPDOC=
+setup_phploc ()
+{
+    DEP_PHPLOC=(
+        [0]="phpDocumentor"
+        #[1]="wget --no-check-certificate http://phpdoc.org/phpDocumentor.phar ; chmod +x phploc.phar ; mv phploc.phar phploc;"
+        [1]="curl -OL http://phpdoc.org/phpDocumentor.phar" 
+    )
+}
+
+
+
 ## setup up dependencies
 ##
 setupDependencies ()
@@ -389,6 +416,15 @@ setupDependencies ()
 
     # fi
 
+    # if [ "${SCRIPT_STEP_PHPLOC}" != "0" ]; then
+
+        setup_phpdoc;
+        EXECCOMMAND=${DEP_PHPDOC[0]};
+        INSTALLCOMMAND=${DEP_PHPDOC[1]};
+        checkDependency "${EXECCOMMAND}" "${INSTALLCOMMAND}";
+
+    # fi
+
 }
 
 ## check for and install dependency
@@ -447,8 +483,8 @@ checkDependency ()
 
                     # `${INSTALLCOMMAND}`;
 
-                    # chmod +x ${EXECCOMMAND}.phar ; 
-                    # mv ${EXECCOMMAND}.phar ${EXECCOMMAND}
+                    chmod +x ${EXECCOMMAND}.phar ; 
+                    mv ${EXECCOMMAND}.phar ${EXECCOMMAND}
 
                     cd ${CDIR}
                 fi
@@ -1131,7 +1167,7 @@ fi
     ## check for 'source path'
     if [[ ! -d $SCRIPT_SOURCEPATH ]] 
         then
-            MSG="ERROR: '$SCRIPT_SOURCEPATH' does not exist or you have no permission to write there, please select another path using option '-src path'...";
+            MSG="ERROR: '$SCRIPT_SOURCEPATH' does not exist or you have no permission to read there, please select another path using option '-src path'...";
             echo $MSG;
             logMessage $MSG;
             SETTINGERROR=1
@@ -1140,7 +1176,7 @@ fi
     ## check for 'tests path'
     if [[ ! -d $SCRIPT_TESTSPATH ]] 
         then
-            MSG="ERROR: '$SCRIPT_TESTSPATH' does not exist or you have no permission to write there, please select another path using option '-tests path'...";
+            MSG="ERROR: '$SCRIPT_TESTSPATH' does not exist or you have no permission to read there, please select another path using option '-tests path'...";
             echo $MSG;
             logMessage $MSG;
             SETTINGERROR=1
