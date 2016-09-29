@@ -33,7 +33,7 @@ analysing tools
 
 ### INSTALL
 
-* download the script and set it to be executable:
+download the script and set it to be executable:
 
 
 	$~/>  wget https://raw.githubusercontent.com/bb-drummer/php-qa/master/php-qa.sh
@@ -43,7 +43,7 @@ analysing tools
 	$~/>  sudo mv php-qa.sh /usr/local/bin/php-qa
 
 
-* to install dependend scripts/tools:
+to install dependend scripts/tools:
 
 
     $~/>  sudo su   (or any user having write priveliges to your bin-path)
@@ -51,7 +51,7 @@ analysing tools
     $~/>  php-qa -setup -v
 
 
-* if not exists, create your directory to store the report files, ex:
+if not exists, create your directory to store the report files, ex:
 
 
 	$~/>  cd myproject/
@@ -63,36 +63,36 @@ analysing tools
 
 ### Examples:
 
-- to run a non-interactive and (nearly) silent report generation with default path settings, simply type:
+to run a non-interactive and (nearly) silent report generation with default path settings, simply type:
 
 
 	$~/>  php-qa -n
 
 
-- change the target for the report files:
+change the target for the report files:
 
 
 	$~/>  php-qa -n -target "/path/to/my/report/files"
 
 
-- specify a different path to the test-files:
+specify a different path to the test-files:
 
 
 	$~/>  php-qa -n -tests "./my/test/files"
 
 
-- specify a different path to the source-files:
+specify a different path to the source-files:
 
 
 	$~/>  php-qa -n -src "./module/src"
 
 
-- turn off log-file:
+turn off log-file:
 
 
 	$~/>  php-qa -n --skip-log
 
-  or
+or
 
 	$~/>  php-qa -n --skip-log
 
