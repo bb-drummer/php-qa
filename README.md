@@ -153,7 +153,7 @@ on command prompt type `php-qa --help` to see the list of options
 
 THIS SCRIPT COMES WITH ABSOLUTELY NO WARRANTY !!! USE AT YOUR OWN RISK !!!
 
-please, see `LICENSE.tst` for further information
+please, see `LICENSE.txt` for further information
 
 
 
