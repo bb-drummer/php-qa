@@ -36,7 +36,7 @@ VERSION="1.0.0"
 SOURCEPATH="./src/"
 TESTSPATH="./tests/"
 TARGETPATH="./public/.reports/"
-BINPATH="/usr/local/bin/"
+BINPATH="~" # set so user's home since installing dependencies via composer
 
 INSTALLDEPENDENCIES=0
 
@@ -48,7 +48,7 @@ LOGFILE=$TMPPATH"/php-qa-${LOGTIME}.log"
 ##
 STEP_PHPUNIT=1
 STEP_PHPCODESNIFFER=1
-STEP_PHPCODESNIFFERBEAUTIFIER=0
+STEP_PHPCODESNIFFERBEAUTIFIER=1
 STEP_PHPMETRICS=1
 STEP_PHPPDEPEND=1
 STEP_PHPMD=1
@@ -214,13 +214,14 @@ setup_phpunit ()
     DEP_PHPUNIT=(
         [0]="phpunit"
         #[1]="wget --no-check-certificate https://phar.phpunit.de/phpunit.phar ; chmod +x phpunit.phar ; mv phpunit.php phpunit"
-        [1]="curl -OL https://phar.phpunit.de/phpunit.phar"
+        #[1]="curl -OL https://phar.phpunit.de/phpunit.phar"
+        [1]="composer global require 'phpunit/phpunit=*'" 
     )
 }
 
 
 
-## php code-sniffer
+## php code-sniffer and beautifier
 ## https://github.com/squizlabs/PHP_CodeSniffer
 CMD_PHPCODESNIFFER=
 DEP_PHPCODESNIFFER=
@@ -229,7 +230,8 @@ setup_phpcodesniffer ()
     DEP_PHPCODESNIFFER=(
         [0]="phpcs"
         #[1]="wget --no-check-certificate https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar ; chmod +x phpcs.phar ; mv phpcs.phar phpcs"
-        [1]="curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar"
+        #[1]="curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar"
+        [1]="composer global require 'squizlabs/php_codesniffer=*'" 
     )
 }
 
@@ -242,7 +244,8 @@ setup_phpcodesnifferbeautifier ()
     DEP_PHPCODESNIFFER_BEAUTIFIER=(
         [0]="phpcbf"
         #[1]="wget --no-check-certificate https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar ; chmod +x phpcbf.phar ; mv phpcbf.phar phpcbf"
-        [1]="curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar"
+        #[1]="curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar"
+        [1]="composer global require 'squizlabs/php_codesniffer=*'" 
     )
 }
 
@@ -257,7 +260,8 @@ setup_phpmetrics ()
     DEP_PHPMETRICS=(
         [0]="phpmetrics"
         #[1]="wget --no-check-certificate https://github.com/phpmetrics/PhpMetrics/raw/master/build/phpmetrics.phar ; chmod +x phpmetrics.phar ; mv phpmetrics.phar phpmetrics"
-        [1]="curl -OL https://github.com/phpmetrics/PhpMetrics/raw/master/build/phpmetrics.phar"
+        #[1]="curl -OL https://github.com/phpmetrics/PhpMetrics/raw/master/build/phpmetrics.phar"
+        [1]="composer global require 'phpmetrics/phpmetrics=*'" 
     )
 }
 
@@ -272,7 +276,8 @@ setup_pdepend ()
     DEP_PDEPEND=(
         [0]="pdepend"
         #[1]="wget --no-check-certificate http://static.pdepend.org/php/latest/pdepend.phar ; chmod +x pdepend.phar ; mv pdepend.phar pdepend"
-        [1]="curl -OL http://static.pdepend.org/php/latest/pdepend.phar"
+        #[1]="curl -OL http://static.pdepend.org/php/latest/pdepend.phar"
+        [1]="composer global require 'pdepend/pdepend=*'" 
     )
 }
 
@@ -287,7 +292,8 @@ setup_phpmd ()
     DEP_PHPMD=(
         [0]="phpmd"
         #[1]="wget --no-check-certificate -c http://static.phpmd.org/php/latest/phpmd.phar ; chmod +x phpmd.phar ; mv phpmd.phar phpmd"
-        [1]="curl -OL http://static.phpmd.org/php/latest/phpmd.phar"
+        #[1]="curl -OL http://static.phpmd.org/php/latest/phpmd.phar"
+        [1]="composer global require 'phpmd/phpmd=*'" 
     )
 }
 
@@ -302,7 +308,8 @@ setup_phpcpd ()
     DEP_PHPCPD=(
         [0]="phpcpd"
         #[1]="wget --no-check-certificate https://phar.phpunit.de/phpcpd.phar ; chmod +x phpcpd.phar ; mv phpcpd.phar phpcpd"
-        [1]="curl -OL https://phar.phpunit.de/phpcpd.phar"
+        #[1]="curl -OL https://phar.phpunit.de/phpcpd.phar"
+        [1]="composer global require 'sebastian/phpcpd=*'" 
     )
 }
 
@@ -317,7 +324,8 @@ setup_phploc ()
     DEP_PHPLOC=(
         [0]="phploc"
         #[1]="wget --no-check-certificate https://phar.phpunit.de/phploc.phar ; chmod +x phploc.phar ; mv phploc.phar phploc;"
-        [1]="curl -OL https://phar.phpunit.de/phploc.phar"
+        #[1]="curl -OL https://phar.phpunit.de/phploc.phar"
+        [1]="composer global require 'phploc/phploc=*'" 
     )
 }
 
@@ -327,12 +335,13 @@ setup_phploc ()
 ## https://www.phpdoc.org/
 CMD_PHPDOC=
 DEP_PHPDOC=
-setup_phploc ()
+setup_phpdoc ()
 {
-    DEP_PHPLOC=(
-        [0]="phpDocumentor"
+    DEP_PHPDOC=(
+        [0]="phpdoc"
         #[1]="wget --no-check-certificate http://phpdoc.org/phpDocumentor.phar ; chmod +x phploc.phar ; mv phploc.phar phploc;"
-        [1]="curl -OL http://phpdoc.org/phpDocumentor.phar" 
+        #[1]="curl -OL http://phpdoc.org/phpDocumentor.phar"
+        [1]="composer global require 'phpdocumentor/phpdocumentor=~2.8.0' ; composer global require 'phpdocumentor/phpdocumentor=~2.8.0' ;" 
     )
 }
 
@@ -562,7 +571,8 @@ perform_phpcodesnifferbeautifier ()
         EXECCOMMAND=${DEP_PHPCODESNIFFER_BEAUTIFIER[0]};
 
         debugMessage ">>> executing... '${EXECCOMMAND}' ";
-        phpcbf ${SCRIPT_ADD_VERBOSE}${SCRIPT_SOURCEPATH} -n --tab-width=4 --report=diff -v > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.code-beautifier-fixer.diff
+        phpcbf ${SCRIPT_ADD_VERBOSE}${SCRIPT_SOURCEPATH} --standard=${CODINGSTD} -n --tab-width=4
+        # --report=diff -v > ${SCRIPT_TARGETPATH}/codesniffer/qa.codesniffer.code-beautifier-fixer.diff
 
     fi
 
@@ -672,15 +682,37 @@ perform_phploc ()
 
 }
 
+## execute phpDocumentor
+##
+perform_phpdoc ()
+{
+    if [ "${SCRIPT_STEP_PHPDOC}" != "0" ]; then
+
+        setup_phpdoc;
+        EXECCOMMAND=${DEP_PHPDOC[0]};
+        mkdir -p ${SCRIPT_TARGETPATH}phpdoc
+        mkdir -p ${SCRIPT_TARGETPATH}phpdoc.md
+
+        debugMessage ">>> executing... '${EXECCOMMAND}' ";
+        phpdoc run ${SCRIPT_ADD_QUIET}${SCRIPT_ADD_VERBOSE} --template="clean" --template="checkstyle" --directory ${SCRIPT_SOURCEPATH} --target ${SCRIPT_TARGETPATH}phpdoc
+        phpdoc run ${SCRIPT_ADD_QUIET}${SCRIPT_ADD_VERBOSE} --template="markdown-public" --directory ${SCRIPT_SOURCEPATH} --target ${SCRIPT_TARGETPATH}phpdoc.md
+        cp ${SCRIPT_TARGETPATH}phpdoc.md/README.md  ${SCRIPT_TARGETPATH}phpdoc/API.md
+        rm -rf ${SCRIPT_TARGETPATH}phpdoc.md
+
+    fi
+
+}
+
 ## execute phpunit
 ##
 performAnalysises ()
 {
-    perform_phpunit;
+
+    perform_phpcodesnifferbeautifier;
 
     perform_phpcodesniffer;
 
-    perform_phpcodesnifferbeautifier;
+    perform_phpunit;
 
     perform_phpmetrics;
 
@@ -691,6 +723,8 @@ performAnalysises ()
     perform_phpcpd;
 
     perform_phploc;
+
+    perform_phpdoc;
 
 }
 
@@ -708,6 +742,7 @@ initReportDirs ()
     mkdir -p ${SCRIPT_TARGETPATH}/phpunit
     mkdir -p ${SCRIPT_TARGETPATH}/pdepend
     mkdir -p ${SCRIPT_TARGETPATH}/phpmd
+    mkdir -p ${SCRIPT_TARGETPATH}/phpdoc
     mkdir -p ${SCRIPT_TARGETPATH}/codesniffer
 
     # clear everything inside
@@ -748,14 +783,11 @@ createIndexPage ()
 {
     # create a "nice" html page to wrap the reports in
 
-    # base64 encode html page
     # see full source @ https://github.com/bb-drummer/php-qa
-    HTMLPAGE='<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="description" content="Test and QA reports wrapping page"> <meta name="author" content="Björn Bartels"> <link rel="icon" href="http://getbootstrap.com/favicon.ico"> <title>Test and QA reports</title> <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"><!--[if lt IE 9]> <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]--> <style type="text/css">/* html, body{display: block;position: relative;width: 100%;height: 100%;overflow: hidden;}*/html, body{display: block; position: absolute; width: auto; height: auto; overflow: auto; top: 0; left: 0; right: 0; bottom: 0;}.framePanel,nav,iframe[name=qaDisplay]{position: absolute;display: block;}.framePanel{left: 15px;right: 15px;top: 70px;bottom: 15px;}iframe[name=qaDisplay]{border-radius: 5px;border: 1px solid #e7e7e7;left: 0px !important;right: 0px !important;top: 0px !important;bottom: 0px !important; height: 100% !important; width: 100% !important;}</style> </head> <body class="_container container-fluid"><div class="nav-container"><nav class="navbar navbar-default" role="navigation"><div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar-collapse"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Test/QA reports</a></div><div class="collapse navbar-collapse" id="main-navbar-collapse"><ul class="nav navbar-nav"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" target="qaDisplay">Metrics<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="qa.phpmetrics.html" target="qaDisplay">analysis</a></li><li><a href="qa.phpmetrics.xml" target="qaDisplay">xml export</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" target="qaDisplay">PHPUnit<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="phpunit/dashboard.html" target="qaDisplay">code analysis</a></li><li><a href="phpunit/index.html" target="qaDisplay">code coverage</a></li><li class="divider"></li><li><a href="phpunit/qa.phpunit.testdox.html" target="qaDisplay">test dox</a></li><li class="divider"></li><li><a href="phpunit/qa.phpunit.clover.xml" target="qaDisplay">clover file</a></li><li><a href="phpunit/qa.phpunit.txt" target="qaDisplay">txt summary</a></li></ul></li><li class="dropdown"><a href="pdepend/" class="dropdown-toggle" data-toggle="dropdown" target="qaDisplay">PDepend<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="pdepend/dependencies.xml" target="qaDisplay">dependencies (xml)</a></li><li><a href="pdepend/jdepend.xml" target="qaDisplay">jdepend (xml)</a></li><li><a href="pdepend/jdepend.svg" target="qaDisplay">jdepend graph</a></li><li><a href="pdepend/pyramid.svg" target="qaDisplay">pyramid graph</a></li><li class="divider"></li><li><a href="pdepend/summary.xml" target="qaDisplay">xml summary</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Mess Detector<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="phpmd/qa.phpmd.cleancode.html" target="qaDisplay">cleancode</a></li><li><a href="phpmd/qa.phpmd.codesize.html" target="qaDisplay">codesize</a></li><li><a href="phpmd/qa.phpmd.controversial.html" target="qaDisplay">controversial</a></li><li><a href="phpmd/qa.phpmd.design.html" target="qaDisplay">design</a></li><li><a href="phpmd/qa.phpmd.naming.html" target="qaDisplay">naming</a></li><li><a href="phpmd/qa.phpmd.unusedcode.html" target="qaDisplay">unused code</a></li><li class="divider"></li><li><a href="phpmd/qa.phpmd.html" target="qaDisplay">full</a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">CodeSniffer (txt)<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="codesniffer/qa.codesniffer.info.txt" target="qaDisplay">info</a></li><li><a href="codesniffer/qa.codesniffer.summary.txt" target="qaDisplay">summary</a></li><li class="divider"></li><li><a href="codesniffer/qa.codesniffer.report.txt" target="qaDisplay">report</a></li><li><a href="codesniffer/qa.codesniffer.source.txt" target="qaDisplay">source</a></li><li class="divider"></li><li><a href="codesniffer/qa.codesniffer.code-beautifier-fixer.git-head.diff" target="qaDisplay">diff/patch</a></li><li class="divider"></li><li><a href="codesniffer/qa.codesniffer.standards.html" target="qaDisplay">Coding Standards</a></li></ul></li><li><a href="qa.copy-paste-detection.txt" target="qaDisplay">Copy&amp;Paste</a></li><li><a href="qa.project-size.txt" target="qaDisplay">size</a></li></ul></div></nav></div><div class="framePanel"><iframe name="qaDisplay" src="phpunit/qa.phpunit.txt"></iframe></div><script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script></body></html>';
-#    HTMLPAGE_BASE64="PCFET0NUWVBFIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxoZWFkPjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04Ij4gPG1ldGEgaHR0cC1lcXVpdj0iWC1VQS1Db21wYXRpYmxlIiBjb250ZW50PSJJRT1lZGdlIj4gPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xIj4gPG1ldGEgbmFtZT0iZGVzY3JpcHRpb24iIGNvbnRlbnQ9IlRlc3QgYW5kIFFBIHJlcG9ydHMgd3JhcHBpbmcgcGFnZSI+IDxtZXRhIG5hbWU9ImF1dGhvciIgY29udGVudD0iQmrDtnJuIEJhcnRlbHMiPiA8bGluayByZWw9Imljb24iIGhyZWY9Imh0dHA6Ly9nZXRib290c3RyYXAuY29tL2Zhdmljb24uaWNvIj4gPHRpdGxlPlRlc3QgYW5kIFFBIHJlcG9ydHM8L3RpdGxlPiA8bGluayBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjMuNy9jc3MvYm9vdHN0cmFwLm1pbi5jc3MiIHJlbD0ic3R5bGVzaGVldCI+PCEtLVtpZiBsdCBJRSA5XT4gPHNjcmlwdCBzcmM9Imh0dHBzOi8vb3NzLm1heGNkbi5jb20vaHRtbDVzaGl2LzMuNy4zL2h0bWw1c2hpdi5taW4uanMiPjwvc2NyaXB0PiA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9vc3MubWF4Y2RuLmNvbS9yZXNwb25kLzEuNC4yL3Jlc3BvbmQubWluLmpzIj48L3NjcmlwdD48IVtlbmRpZl0tLT4gPHN0eWxlIHR5cGU9InRleHQvY3NzIj4vKiBodG1sLCBib2R5e2Rpc3BsYXk6IGJsb2NrO3Bvc2l0aW9uOiByZWxhdGl2ZTt3aWR0aDogMTAwJTtoZWlnaHQ6IDEwMCU7b3ZlcmZsb3c6IGhpZGRlbjt9Ki9odG1sLCBib2R5e2Rpc3BsYXk6IGJsb2NrOyBwb3NpdGlvbjogYWJzb2x1dGU7IHdpZHRoOiBhdXRvOyBoZWlnaHQ6IGF1dG87IG92ZXJmbG93OiBhdXRvOyB0b3A6IDA7IGxlZnQ6IDA7IHJpZ2h0OiAwOyBib3R0b206IDA7fS5mcmFtZVBhbmVsLG5hdixpZnJhbWVbbmFtZT1xYURpc3BsYXlde3Bvc2l0aW9uOiBhYnNvbHV0ZTtkaXNwbGF5OiBibG9jazt9LmZyYW1lUGFuZWx7bGVmdDogMTVweDtyaWdodDogMTVweDt0b3A6IDcwcHg7Ym90dG9tOiAxNXB4O31pZnJhbWVbbmFtZT1xYURpc3BsYXlde2JvcmRlci1yYWRpdXM6IDVweDtib3JkZXI6IDFweCBzb2xpZCAjZTdlN2U3O2xlZnQ6IDBweCAhaW1wb3J0YW50O3JpZ2h0OiAwcHggIWltcG9ydGFudDt0b3A6IDBweCAhaW1wb3J0YW50O2JvdHRvbTogMHB4ICFpbXBvcnRhbnQ7IGhlaWdodDogMTAwJSAhaW1wb3J0YW50OyB3aWR0aDogMTAwJSAhaW1wb3J0YW50O308L3N0eWxlPiA8L2hlYWQ+IDxib2R5IGNsYXNzPSJfY29udGFpbmVyIGNvbnRhaW5lci1mbHVpZCI+PGRpdiBjbGFzcz0ibmF2LWNvbnRhaW5lciI+PG5hdiBjbGFzcz0ibmF2YmFyIG5hdmJhci1kZWZhdWx0IiByb2xlPSJuYXZpZ2F0aW9uIj48ZGl2IGNsYXNzPSJuYXZiYXItaGVhZGVyIj4gPGJ1dHRvbiB0eXBlPSJidXR0b24iIGNsYXNzPSJuYXZiYXItdG9nZ2xlIiBkYXRhLXRvZ2dsZT0iY29sbGFwc2UiIGRhdGEtdGFyZ2V0PSIjbWFpbi1uYXZiYXItY29sbGFwc2UiPiA8c3BhbiBjbGFzcz0ic3Itb25seSI+VG9nZ2xlIG5hdmlnYXRpb248L3NwYW4+PHNwYW4gY2xhc3M9Imljb24tYmFyIj48L3NwYW4+PHNwYW4gY2xhc3M9Imljb24tYmFyIj48L3NwYW4+PHNwYW4gY2xhc3M9Imljb24tYmFyIj48L3NwYW4+PC9idXR0b24+IDxhIGNsYXNzPSJuYXZiYXItYnJhbmQiIGhyZWY9IiMiPlRlc3QvUUEgcmVwb3J0czwvYT48L2Rpdj48ZGl2IGNsYXNzPSJjb2xsYXBzZSBuYXZiYXItY29sbGFwc2UiIGlkPSJtYWluLW5hdmJhci1jb2xsYXBzZSI+PHVsIGNsYXNzPSJuYXYgbmF2YmFyLW5hdiI+PGxpIGNsYXNzPSJkcm9wZG93biI+PGEgaHJlZj0iIyIgY2xhc3M9ImRyb3Bkb3duLXRvZ2dsZSIgZGF0YS10b2dnbGU9ImRyb3Bkb3duIiB0YXJnZXQ9InFhRGlzcGxheSI+TWV0cmljczxzdHJvbmcgY2xhc3M9ImNhcmV0Ij48L3N0cm9uZz48L2E+PHVsIGNsYXNzPSJkcm9wZG93bi1tZW51Ij48bGk+PGEgaHJlZj0icWEucGhwbWV0cmljcy5odG1sIiB0YXJnZXQ9InFhRGlzcGxheSI+YW5hbHlzaXM8L2E+PC9saT48bGk+PGEgaHJlZj0icWEucGhwbWV0cmljcy54bWwiIHRhcmdldD0icWFEaXNwbGF5Ij54bWwgZXhwb3J0PC9hPjwvbGk+PC91bD48L2xpPjxsaSBjbGFzcz0iZHJvcGRvd24iPjxhIGhyZWY9IiMiIGNsYXNzPSJkcm9wZG93bi10b2dnbGUiIGRhdGEtdG9nZ2xlPSJkcm9wZG93biIgdGFyZ2V0PSJxYURpc3BsYXkiPlBIUFVuaXQ8c3Ryb25nIGNsYXNzPSJjYXJldCI+PC9zdHJvbmc+PC9hPjx1bCBjbGFzcz0iZHJvcGRvd24tbWVudSI+PGxpPjxhIGhyZWY9InBocHVuaXQvZGFzaGJvYXJkLmh0bWwiIHRhcmdldD0icWFEaXNwbGF5Ij5jb2RlIGFuYWx5c2lzPC9hPjwvbGk+PGxpPjxhIGhyZWY9InBocHVuaXQvaW5kZXguaHRtbCIgdGFyZ2V0PSJxYURpc3BsYXkiPmNvZGUgY292ZXJhZ2U8L2E+PC9saT48bGkgY2xhc3M9ImRpdmlkZXIiPjwvbGk+PGxpPjxhIGhyZWY9InBocHVuaXQvcWEucGhwdW5pdC50ZXN0ZG94Lmh0bWwiIHRhcmdldD0icWFEaXNwbGF5Ij50ZXN0IGRveDwvYT48L2xpPjxsaSBjbGFzcz0iZGl2aWRlciI+PC9saT48bGk+PGEgaHJlZj0icGhwdW5pdC9xYS5waHB1bml0LmNsb3Zlci54bWwiIHRhcmdldD0icWFEaXNwbGF5Ij5jbG92ZXIgZmlsZTwvYT48L2xpPjxsaT48YSBocmVmPSJwaHB1bml0L3FhLnBocHVuaXQudHh0IiB0YXJnZXQ9InFhRGlzcGxheSI+dHh0IHN1bW1hcnk8L2E+PC9saT48L3VsPjwvbGk+PGxpIGNsYXNzPSJkcm9wZG93biI+PGEgaHJlZj0icGRlcGVuZC8iIGNsYXNzPSJkcm9wZG93bi10b2dnbGUiIGRhdGEtdG9nZ2xlPSJkcm9wZG93biIgdGFyZ2V0PSJxYURpc3BsYXkiPlBEZXBlbmQ8c3Ryb25nIGNsYXNzPSJjYXJldCI+PC9zdHJvbmc+PC9hPjx1bCBjbGFzcz0iZHJvcGRvd24tbWVudSI+PGxpPjxhIGhyZWY9InBkZXBlbmQvZGVwZW5kZW5jaWVzLnhtbCIgdGFyZ2V0PSJxYURpc3BsYXkiPmRlcGVuZGVuY2llcyAoeG1sKTwvYT48L2xpPjxsaT48YSBocmVmPSJwZGVwZW5kL2pkZXBlbmQueG1sIiB0YXJnZXQ9InFhRGlzcGxheSI+amRlcGVuZCAoeG1sKTwvYT48L2xpPjxsaT48YSBocmVmPSJwZGVwZW5kL2pkZXBlbmQuc3ZnIiB0YXJnZXQ9InFhRGlzcGxheSI+amRlcGVuZCBncmFwaDwvYT48L2xpPjxsaT48YSBocmVmPSJwZGVwZW5kL3B5cmFtaWQuc3ZnIiB0YXJnZXQ9InFhRGlzcGxheSI+cHlyYW1pZCBncmFwaDwvYT48L2xpPjxsaSBjbGFzcz0iZGl2aWRlciI+PC9saT48bGk+PGEgaHJlZj0icGRlcGVuZC9zdW1tYXJ5LnhtbCIgdGFyZ2V0PSJxYURpc3BsYXkiPnhtbCBzdW1tYXJ5PC9hPjwvbGk+PC91bD48L2xpPjxsaSBjbGFzcz0iZHJvcGRvd24iPjxhIGhyZWY9IiMiIGNsYXNzPSJkcm9wZG93bi10b2dnbGUiIGRhdGEtdG9nZ2xlPSJkcm9wZG93biI+TWVzcyBEZXRlY3RvcjxzdHJvbmcgY2xhc3M9ImNhcmV0Ij48L3N0cm9uZz48L2E+PHVsIGNsYXNzPSJkcm9wZG93bi1tZW51Ij48bGk+PGEgaHJlZj0icGhwbWQvcWEucGhwbWQuY2xlYW5jb2RlLmh0bWwiIHRhcmdldD0icWFEaXNwbGF5Ij5jbGVhbmNvZGU8L2E+PC9saT48bGk+PGEgaHJlZj0icGhwbWQvcWEucGhwbWQuY29kZXNpemUuaHRtbCIgdGFyZ2V0PSJxYURpc3BsYXkiPmNvZGVzaXplPC9hPjwvbGk+PGxpPjxhIGhyZWY9InBocG1kL3FhLnBocG1kLmNvbnRyb3ZlcnNpYWwuaHRtbCIgdGFyZ2V0PSJxYURpc3BsYXkiPmNvbnRyb3ZlcnNpYWw8L2E+PC9saT48bGk+PGEgaHJlZj0icGhwbWQvcWEucGhwbWQuZGVzaWduLmh0bWwiIHRhcmdldD0icWFEaXNwbGF5Ij5kZXNpZ248L2E+PC9saT48bGk+PGEgaHJlZj0icGhwbWQvcWEucGhwbWQubmFtaW5nLmh0bWwiIHRhcmdldD0icWFEaXNwbGF5Ij5uYW1pbmc8L2E+PC9saT48bGk+PGEgaHJlZj0icGhwbWQvcWEucGhwbWQudW51c2VkY29kZS5odG1sIiB0YXJnZXQ9InFhRGlzcGxheSI+dW51c2VkIGNvZGU8L2E+PC9saT48bGkgY2xhc3M9ImRpdmlkZXIiPjwvbGk+PGxpPjxhIGhyZWY9InBocG1kL3FhLnBocG1kLmh0bWwiIHRhcmdldD0icWFEaXNwbGF5Ij5mdWxsPC9hPjwvbGk+PC91bD48L2xpPjxsaSBjbGFzcz0iZHJvcGRvd24iPjxhIGhyZWY9IiMiIGNsYXNzPSJkcm9wZG93bi10b2dnbGUiIGRhdGEtdG9nZ2xlPSJkcm9wZG93biI+Q29kZVNuaWZmZXIgKHR4dCk8c3Ryb25nIGNsYXNzPSJjYXJldCI+PC9zdHJvbmc+PC9hPjx1bCBjbGFzcz0iZHJvcGRvd24tbWVudSI+PGxpPjxhIGhyZWY9ImNvZGVzbmlmZmVyL3FhLmNvZGVzbmlmZmVyLmluZm8udHh0IiB0YXJnZXQ9InFhRGlzcGxheSI+aW5mbzwvYT48L2xpPjxsaT48YSBocmVmPSJjb2Rlc25pZmZlci9xYS5jb2Rlc25pZmZlci5zdW1tYXJ5LnR4dCIgdGFyZ2V0PSJxYURpc3BsYXkiPnN1bW1hcnk8L2E+PC9saT48bGkgY2xhc3M9ImRpdmlkZXIiPjwvbGk+PGxpPjxhIGhyZWY9ImNvZGVzbmlmZmVyL3FhLmNvZGVzbmlmZmVyLnJlcG9ydC50eHQiIHRhcmdldD0icWFEaXNwbGF5Ij5yZXBvcnQ8L2E+PC9saT48bGk+PGEgaHJlZj0iY29kZXNuaWZmZXIvcWEuY29kZXNuaWZmZXIuc291cmNlLnR4dCIgdGFyZ2V0PSJxYURpc3BsYXkiPnNvdXJjZTwvYT48L2xpPjxsaSBjbGFzcz0iZGl2aWRlciI+PC9saT48bGk+PGEgaHJlZj0iY29kZXNuaWZmZXIvcWEuY29kZXNuaWZmZXIuY29kZS1iZWF1dGlmaWVyLWZpeGVyLmdpdC1oZWFkLmRpZmYiIHRhcmdldD0icWFEaXNwbGF5Ij5kaWZmL3BhdGNoPC9hPjwvbGk+PGxpIGNsYXNzPSJkaXZpZGVyIj48L2xpPjxsaT48YSBocmVmPSJjb2Rlc25pZmZlci9xYS5jb2Rlc25pZmZlci5zdGFuZGFyZHMuaHRtbCIgdGFyZ2V0PSJxYURpc3BsYXkiPkNvZGluZyBTdGFuZGFyZHM8L2E+PC9saT48L3VsPjwvbGk+PGxpPjxhIGhyZWY9InFhLmNvcHktcGFzdGUtZGV0ZWN0aW9uLnR4dCIgdGFyZ2V0PSJxYURpc3BsYXkiPkNvcHkmYW1wO1Bhc3RlPC9hPjwvbGk+PGxpPjxhIGhyZWY9InFhLnByb2plY3Qtc2l6ZS50eHQiIHRhcmdldD0icWFEaXNwbGF5Ij5zaXplPC9hPjwvbGk+PC91bD48L2Rpdj48L25hdj48L2Rpdj48ZGl2IGNsYXNzPSJmcmFtZVBhbmVsIj48aWZyYW1lIG5hbWU9InFhRGlzcGxheSIgc3JjPSJwaHB1bml0L3FhLnBocHVuaXQudHh0Ij48L2lmcmFtZT48L2Rpdj48c2NyaXB0IHR5cGU9InRleHQvamF2YXNjcmlwdCIgc3JjPSJodHRwczovL2NvZGUuanF1ZXJ5LmNvbS9qcXVlcnktMy4xLjEubWluLmpzIj48L3NjcmlwdD4gPHNjcmlwdCB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiIHNyYz0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9ib290c3RyYXAvMy4zLjcvanMvYm9vdHN0cmFwLm1pbi5qcyI+PC9zY3JpcHQ+PC9ib2R5PjwvaHRtbD4=";
+    HTMLPAGE='<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="description" content="Test and QA reports wrapping page"> <meta name="author" content="Björn Bartels"> <link rel="icon" href="http://getbootstrap.com/favicon.ico"> <title>Test and QA reports</title> <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"><!--[if lt IE 9]> <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script> <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]--> <style type="text/css">/* html, body{display: block;position: relative;width: 100%;height: 100%;overflow: hidden;}*/html, body{display: block; position: absolute; width: auto; height: auto; overflow: auto; top: 0; left: 0; right: 0; bottom: 0;}.framePanel,nav,iframe[name=qaDisplay]{position: absolute;display: block;}.framePanel{left: 15px;right: 15px;top: 70px;bottom: 15px;}iframe[name=qaDisplay]{border-radius: 5px;border: 1px solid #e7e7e7;left: 0px !important;right: 0px !important;top: 0px !important;bottom: 0px !important; height: 100% !important; width: 100% !important;}</style> </head> <body class="_container container-fluid"><div class="nav-container"><nav class="navbar navbar-default" role="navigation"><div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar-collapse"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="./">Test/QA reports</a></div><div class="collapse navbar-collapse" id="main-navbar-collapse"><ul class="nav navbar-nav"><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" target="qaDisplay">Metrics<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="qa.phpmetrics.html" target="qaDisplay">analysis</a></li><li><a href="qa.phpmetrics.xml" target="qaDisplay">xml export</a></li></ul></li><li class="dropdown"><a href="phpunit/" class="dropdown-toggle" data-toggle="dropdown" target="qaDisplay">Tests<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="phpunit/dashboard.html" target="qaDisplay">code analysis</a></li><li><a href="phpunit/index.html" target="qaDisplay">code coverage</a></li><li class="divider"></li><li><a href="phpunit/qa.phpunit.testdox.html" target="qaDisplay">test dox</a></li><li class="divider"></li><li><a href="phpunit/qa.phpunit.clover.xml" target="qaDisplay">clover file</a></li><li><a href="phpunit/qa.phpunit.txt" target="qaDisplay">txt summary</a></li></ul></li><li class="dropdown"><a href="pdepend/" class="dropdown-toggle" data-toggle="dropdown" target="qaDisplay">Dependencies<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="pdepend/jdepend.svg" target="qaDisplay">jdepend graph</a></li><li><a href="pdepend/pyramid.svg" target="qaDisplay">pyramid graph</a></li><li class="divider"></li><li><a href="pdepend/dependencies.xml" target="qaDisplay">dependencies (xml)</a></li><li><a href="pdepend/jdepend.xml" target="qaDisplay">jdepend (xml)</a></li><li><a href="pdepend/summary.xml" target="qaDisplay">xml summary</a></li></ul></li><li class="dropdown"><a href="phpmd/" class="dropdown-toggle" data-toggle="dropdown">Mess Detector<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="phpmd/qa.phpmd.cleancode.html" target="qaDisplay">cleancode</a></li><li><a href="phpmd/qa.phpmd.codesize.html" target="qaDisplay">codesize</a></li><li><a href="phpmd/qa.phpmd.controversial.html" target="qaDisplay">controversial</a></li><li><a href="phpmd/qa.phpmd.design.html" target="qaDisplay">design</a></li><li><a href="phpmd/qa.phpmd.naming.html" target="qaDisplay">naming</a></li><li><a href="phpmd/qa.phpmd.unusedcode.html" target="qaDisplay">unused code</a></li><li class="divider"></li><li><a href="phpmd/qa.phpmd.html" target="qaDisplay">full</a></li></ul></li><li class="dropdown"><a href="codesniffer/" class="dropdown-toggle" data-toggle="dropdown">Style<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="codesniffer/qa.codesniffer.info.txt" target="qaDisplay">info</a></li><li><a href="codesniffer/qa.codesniffer.summary.txt" target="qaDisplay">summary</a></li><li class="divider"></li><li><a href="codesniffer/qa.codesniffer.report.txt" target="qaDisplay">report</a></li><li><a href="codesniffer/qa.codesniffer.source.txt" target="qaDisplay">source</a></li><li class="divider"></li><li><a href="codesniffer/qa.codesniffer.code-beautifier-fixer.git-head.diff" target="qaDisplay">diff/patch</a></li><li class="divider"></li><li><a href="codesniffer/qa.codesniffer.standards.html" target="qaDisplay">Coding Standards</a></li></ul></li><li><a href="qa.copy-paste-detection.txt" target="qaDisplay">Copy&amp;Paste</a></li><li><a href="qa.project-size.txt" target="qaDisplay">LOC</a></li><li class="dropdown"><a href="phpdoc/" class="dropdown-toggle" data-toggle="dropdown">Docs<strong class="caret"></strong></a><ul class="dropdown-menu"><li><a href="phpdoc/" target="qaDisplay">HTML</a></li><li><a href="phpdoc/API.md" target="qaDisplay">Markdown</a></li></ul></li></ul></div></nav></div><div class="framePanel"><iframe name="qaDisplay" src="qa.project-size.txt"></iframe></div><script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script></body></html>';
 
     # output decoded html to file
-    echo "$HTMLPAGE" > ${SCRIPT_TARGETPATH}/index.html 
-#    base64_decode "$HTMLPAGE_BASE64" > ${SCRIPT_TARGETPATH}/index.html 
+    echo "$HTMLPAGE" > ${SCRIPT_TARGETPATH}/index.html
 
 }
 
@@ -1096,12 +1128,12 @@ fi
 ## check for mandatory script argument values
 ##
 if [[ -z $TARGETPATH ]] || [[ -z $LOGFILE ]]
-then
-    echo "!!! ERROR !!!";
-    scriptusage
-    scriptinfo
-    #scriptvendor
-    exit 1
+    then
+        echo "!!! ERROR !!!";
+        scriptusage
+        scriptinfo
+        #scriptvendor
+        exit 1
 fi
 
 ## select/perform script operations...
@@ -1132,6 +1164,7 @@ fi
     SCRIPT_STEP_PHPMD=${STEP_PHPMD}
     SCRIPT_STEP_PHPCPD=${STEP_PHPCPD}
     SCRIPT_STEP_PHPLOC=${STEP_PHPLOC}
+    SCRIPT_STEP_PHPDOC=${STEP_PHPDOC}
 
     ## generic config
     ##
@@ -1243,7 +1276,6 @@ fi
     ##
     if [ $CONTINUESCRIPT == 1 ]
         then
-
             
             debugMessage "init directories...";
             initReportDirs;
@@ -1272,7 +1304,6 @@ fi
             ###
 
             debugMessage "perform analysis...";
-
             
             ## example of executing a sub-step of a 'real' script...
             ##
@@ -1290,10 +1321,6 @@ fi
                     performAnalysises;
 
             fi
-
-            ###
-
-
 
     fi
 
